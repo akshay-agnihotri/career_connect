@@ -38,4 +38,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Ignore project architecture documentation
+Project_Archietecture.md
 next-env.d.ts
