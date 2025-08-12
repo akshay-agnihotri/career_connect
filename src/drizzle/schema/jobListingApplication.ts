@@ -9,6 +9,7 @@ import {
 import { jobListingsTable } from "./jobListing";
 import { usersTable } from "./user";
 import { updatedAt, createdAt } from "../schemaHelper";
+import { relations } from "drizzle-orm";
 
 export const applicationStages = [
   "denied",
@@ -39,4 +40,18 @@ export const jobListingApplicationsTable = pgTable(
     updatedAt,
   },
   (table) => [primaryKey({ columns: [table.jobListingId, table.userId] })]
+);
+
+export const jobListingApplicationsRelation = relations(
+  jobListingApplicationsTable,
+  ({ one }) => ({
+    jobListing: one(jobListingsTable, {
+      fields: [jobListingApplicationsTable.jobListingId],
+      references: [jobListingsTable.id],
+    }),
+    user: one(usersTable, {
+      fields: [jobListingApplicationsTable.userId],
+      references: [usersTable.id],
+    }),
+  })
 );
