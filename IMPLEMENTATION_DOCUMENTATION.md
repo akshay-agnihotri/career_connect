@@ -8,16 +8,16 @@
 
 ## 🛠 Technology Stack
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Next.js** | 15.4.6 | Full-stack React framework with App Router |
-| **TypeScript** | ^5 | Type-safe development |
-| **Drizzle ORM** | ^0.44.4 | Type-safe database operations |
-| **PostgreSQL** | 17.0 | Primary database |
-| **Docker** | Latest | Database containerization |
-| **@t3-oss/env-nextjs** | ^0.13.8 | Environment variable validation |
-| **Zod** | ^4.0.17 | Schema validation |
-| **TailwindCSS** | ^4 | Styling framework |
+| Technology             | Version | Purpose                                    |
+| ---------------------- | ------- | ------------------------------------------ |
+| **Next.js**            | 15.4.6  | Full-stack React framework with App Router |
+| **TypeScript**         | ^5      | Type-safe development                      |
+| **Drizzle ORM**        | ^0.44.4 | Type-safe database operations              |
+| **PostgreSQL**         | 17.0    | Primary database                           |
+| **Docker**             | Latest  | Database containerization                  |
+| **@t3-oss/env-nextjs** | ^0.13.8 | Environment variable validation            |
+| **Zod**                | ^4.0.17 | Schema validation                          |
+| **TailwindCSS**        | ^4      | Styling framework                          |
 
 ---
 
@@ -78,17 +78,20 @@
 ## 🔄 Implementation Timeline
 
 ### Phase 1: Project Initialization ✅
+
 - **Date**: Initial setup
 - **Action**: Created Next.js project with TypeScript
 - **Files**: Basic Next.js structure
 
 ### Phase 2: Environment Setup ✅
+
 - **Date**: Environment configuration
 - **Action**: Added environment variable validation
 - **Files Created**:
   - `src/data/env/server.ts` - Type-safe environment validation with Zod
 
 ### Phase 3: Docker PostgreSQL Setup ✅
+
 - **Date**: Database containerization
 - **Action**: Added PostgreSQL Docker container
 - **Files Created**:
@@ -96,6 +99,7 @@
   - `.env` - Database credentials and configuration
 
 ### Phase 4: Drizzle ORM Integration ✅
+
 - **Date**: Database ORM setup
 - **Action**: Installed and configured Drizzle ORM
 - **Dependencies Added**:
@@ -118,6 +122,7 @@
   ```
 
 ### Phase 5: Database Schema Development ✅
+
 - **Date**: Core schema implementation
 - **Action**: Created complete job board database schema
 - **Files Created**:
@@ -126,11 +131,12 @@
   - `src/drizzle/schema.ts` - Central schema exports
 
 ### Phase 6: Entity Schema Implementation ✅
+
 - **Date**: Individual table schemas
 - **Action**: Implemented 7 database tables with proper types
 - **Files Created**:
   1. `src/drizzle/schema/user.ts`
-  2. `src/drizzle/schema/organization.ts` 
+  2. `src/drizzle/schema/organization.ts`
   3. `src/drizzle/schema/jobListing.ts`
   4. `src/drizzle/schema/jobListingApplication.ts`
   5. `src/drizzle/schema/userResume.ts`
@@ -138,11 +144,13 @@
   7. `src/drizzle/schema/organizationUserSetting.ts`
 
 ### Phase 7: Database Relations Implementation ✅
+
 - **Date**: Drizzle relations setup
 - **Action**: Added type-safe relationships between all tables
 - **Files Modified**: All schema files with proper relations
 
 ### Phase 8: Database Migration ✅
+
 - **Date**: Production deployment
 - **Action**: Generated and applied database migrations
 - **Files Created**:
@@ -151,6 +159,7 @@
   - `src/drizzle/migrations/meta/_journal.json`
 
 ### Phase 9: Documentation ✅
+
 - **Date**: Comprehensive documentation
 - **Action**: Created detailed documentation in Hinglish
 - **Files Created**:
@@ -162,6 +171,7 @@
 ## 🏗 Database Architecture Details
 
 ### PostgreSQL Enums (6 Total)
+
 ```sql
 -- Job Experience Levels
 CREATE TYPE "job_listings_experience_level" AS ENUM('junior', 'mid-level', 'senior');
@@ -185,6 +195,7 @@ CREATE TYPE "application_stage" AS ENUM('denied', 'applied', 'interested', 'inte
 ### Database Tables (7 Total)
 
 #### 1. Users Table
+
 ```sql
 CREATE TABLE "users" (
   "id" varchar PRIMARY KEY NOT NULL,
@@ -196,9 +207,11 @@ CREATE TABLE "users" (
   CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 ```
+
 **Purpose**: Central user management for job seekers and recruiters
 
 #### 2. Organizations Table
+
 ```sql
 CREATE TABLE "organizations" (
   "id" varchar PRIMARY KEY NOT NULL,
@@ -208,9 +221,11 @@ CREATE TABLE "organizations" (
   "updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 ```
+
 **Purpose**: Company/organization management
 
 #### 3. Job Listings Table (Most Complex)
+
 ```sql
 CREATE TABLE "job_listings" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
@@ -231,9 +246,11 @@ CREATE TABLE "job_listings" (
   "updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 ```
+
 **Purpose**: Complete job posting system with 16 columns and 5 enums
 
 #### 4. Job Applications Table (Composite Primary Key)
+
 ```sql
 CREATE TABLE "job_listing_applications" (
   "jobListingId" uuid NOT NULL,
@@ -246,9 +263,11 @@ CREATE TABLE "job_listing_applications" (
   CONSTRAINT "job_listing_applications_jobListingId_userId_pk" PRIMARY KEY("jobListingId","userId")
 );
 ```
+
 **Purpose**: Application tracking with composite key preventing duplicate applications
 
 #### 5. User Resumes Table
+
 ```sql
 CREATE TABLE "user_resumes" (
   "userId" varchar PRIMARY KEY NOT NULL,
@@ -259,9 +278,11 @@ CREATE TABLE "user_resumes" (
   "updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 ```
+
 **Purpose**: Resume file management with AI integration support
 
 #### 6. User Notification Settings Table
+
 ```sql
 CREATE TABLE "user_notification_settings" (
   "userId" varchar PRIMARY KEY NOT NULL,
@@ -271,9 +292,11 @@ CREATE TABLE "user_notification_settings" (
   "updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 ```
+
 **Purpose**: Personalized notification preferences
 
 #### 7. Organization User Settings Table
+
 ```sql
 CREATE TABLE "organization_user_settings" (
   "userId" varchar NOT NULL,
@@ -285,40 +308,43 @@ CREATE TABLE "organization_user_settings" (
   CONSTRAINT "organization_user_settings_userId_organizationId_pk" PRIMARY KEY("userId","organizationId")
 );
 ```
+
 **Purpose**: Multi-company HR user settings with composite key
 
 ### Foreign Key Relationships
+
 ```sql
 -- Job Listings → Organizations (Cascade Delete)
-ALTER TABLE "job_listings" ADD CONSTRAINT "job_listings_organizationId_organizations_id_fk" 
+ALTER TABLE "job_listings" ADD CONSTRAINT "job_listings_organizationId_organizations_id_fk"
 FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE cascade;
 
 -- Applications → Job Listings (Cascade Delete)
-ALTER TABLE "job_listing_applications" ADD CONSTRAINT "job_listing_applications_jobListingId_job_listings_id_fk" 
+ALTER TABLE "job_listing_applications" ADD CONSTRAINT "job_listing_applications_jobListingId_job_listings_id_fk"
 FOREIGN KEY ("jobListingId") REFERENCES "job_listings"("id") ON DELETE cascade;
 
 -- Applications → Users (Cascade Delete)
-ALTER TABLE "job_listing_applications" ADD CONSTRAINT "job_listing_applications_userId_users_id_fk" 
+ALTER TABLE "job_listing_applications" ADD CONSTRAINT "job_listing_applications_userId_users_id_fk"
 FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE cascade;
 
 -- User Resumes → Users
-ALTER TABLE "user_resumes" ADD CONSTRAINT "user_resumes_userId_users_id_fk" 
+ALTER TABLE "user_resumes" ADD CONSTRAINT "user_resumes_userId_users_id_fk"
 FOREIGN KEY ("userId") REFERENCES "users"("id");
 
 -- Notification Settings → Users
-ALTER TABLE "user_notification_settings" ADD CONSTRAINT "user_notification_settings_userId_users_id_fk" 
+ALTER TABLE "user_notification_settings" ADD CONSTRAINT "user_notification_settings_userId_users_id_fk"
 FOREIGN KEY ("userId") REFERENCES "users"("id");
 
 -- Org User Settings → Users
-ALTER TABLE "organization_user_settings" ADD CONSTRAINT "organization_user_settings_userId_users_id_fk" 
+ALTER TABLE "organization_user_settings" ADD CONSTRAINT "organization_user_settings_userId_users_id_fk"
 FOREIGN KEY ("userId") REFERENCES "users"("id");
 
 -- Org User Settings → Organizations
-ALTER TABLE "organization_user_settings" ADD CONSTRAINT "organization_user_settings_organizationId_organizations_id_fk" 
+ALTER TABLE "organization_user_settings" ADD CONSTRAINT "organization_user_settings_organizationId_organizations_id_fk"
 FOREIGN KEY ("organizationId") REFERENCES "organizations"("id");
 ```
 
 ### Database Indexes
+
 ```sql
 -- Performance optimization for location-based job searches
 CREATE INDEX "job_listings_stateAbbreviation_index" ON "job_listings" USING btree ("stateAbbreviation");
@@ -329,6 +355,7 @@ CREATE INDEX "job_listings_stateAbbreviation_index" ON "job_listings" USING btre
 ## 🔗 Drizzle Relations Implementation
 
 ### Type-Safe Relationships
+
 All tables include properly defined Drizzle relations for type-safe queries:
 
 ```typescript
@@ -341,9 +368,10 @@ export const usersRelation = relations(usersTable, ({ one, many }) => ({
 ```
 
 ### Relationship Map
+
 ```
 Users (1) ←→ (1) UserNotificationSettings
-Users (1) ←→ (1) UserResume  
+Users (1) ←→ (1) UserResume
 Users (1) ←→ (M) OrganizationUserSettings
 Users (1) ←→ (M) JobApplications
 
@@ -362,30 +390,33 @@ JobApplications (M) ←→ (1) JobListings
 ## 📊 Package.json Changes
 
 ### Dependencies Added
+
 ```json
 {
-  "@t3-oss/env-nextjs": "^0.13.8",    // Environment validation
-  "drizzle-orm": "^0.44.4",           // Database ORM
-  "pg": "^8.16.3",                    // PostgreSQL client
-  "zod": "^4.0.17"                    // Schema validation
+  "@t3-oss/env-nextjs": "^0.13.8", // Environment validation
+  "drizzle-orm": "^0.44.4", // Database ORM
+  "pg": "^8.16.3", // PostgreSQL client
+  "zod": "^4.0.17" // Schema validation
 }
 ```
 
 ### Dev Dependencies Added
+
 ```json
 {
-  "@types/pg": "^8.15.5",             // PostgreSQL types
-  "drizzle-kit": "^0.31.4"            // Database migration tools
+  "@types/pg": "^8.15.5", // PostgreSQL types
+  "drizzle-kit": "^0.31.4" // Database migration tools
 }
 ```
 
 ### Scripts Added
+
 ```json
 {
-  "db:push": "drizzle-kit push",       // Push schema without migrations
+  "db:push": "drizzle-kit push", // Push schema without migrations
   "db:generate": "drizzle-kit generate", // Generate migration files
-  "db:migrate": "drizzle-kit migrate",   // Apply migrations
-  "db:studio": "drizzle-kit studio"      // Database GUI
+  "db:migrate": "drizzle-kit migrate", // Apply migrations
+  "db:studio": "drizzle-kit studio" // Database GUI
 }
 ```
 
@@ -394,6 +425,7 @@ JobApplications (M) ←→ (1) JobListings
 ## 🚀 Production Features Implemented
 
 ### Database Level ✅
+
 - **PostgreSQL Enums**: Type-safe enums at database level
 - **Foreign Key Constraints**: Proper relationships with cascade deletes
 - **Composite Primary Keys**: Complex many-to-many relationships
@@ -402,6 +434,7 @@ JobApplications (M) ←→ (1) JobListings
 - **Timestamp Tracking**: Automatic created/updated timestamps
 
 ### Application Level ✅
+
 - **Type Safety**: Full TypeScript integration
 - **Environment Validation**: Zod-based env validation
 - **Database Relations**: Type-safe join queries with Drizzle
@@ -409,6 +442,7 @@ JobApplications (M) ←→ (1) JobListings
 - **Schema Organization**: Modular schema structure
 
 ### Business Logic ✅
+
 - **Complete Job Board**: Post, apply, track, hire workflow
 - **Multi-Company Support**: One user can work for multiple companies
 - **Application Pipeline**: 5-stage hiring process tracking
@@ -423,34 +457,36 @@ JobApplications (M) ←→ (1) JobListings
 ## 🎯 Configuration Files
 
 ### drizzle.config.ts
+
 ```typescript
 import { defineConfig } from "drizzle-kit";
 import { env } from "./src/data/env/server";
 
 export default defineConfig({
-  out: "./src/drizzle/migrations",    // Migration output directory
-  schema: "./src/drizzle/schema.ts",  // Schema location
-  dialect: "postgresql",              // Database type
+  out: "./src/drizzle/migrations", // Migration output directory
+  schema: "./src/drizzle/schema.ts", // Schema location
+  dialect: "postgresql", // Database type
   dbCredentials: {
-    url: env.DATABASE_URL!,           // Database connection
+    url: env.DATABASE_URL!, // Database connection
   },
 });
 ```
 
 ### docker-compose.yml
+
 ```yaml
 services:
   db:
-    image: postgres:17.0              # PostgreSQL version
+    image: postgres:17.0 # PostgreSQL version
     hostname: ${DB_HOST}
     ports:
-      - "5432:${DB_PORT}"            # Port mapping
+      - "5432:${DB_PORT}" # Port mapping
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_DB=${DB_NAME}
     volumes:
-      - pgdata:/var/lib/postgresql/data  # Data persistence
+      - pgdata:/var/lib/postgresql/data # Data persistence
 volumes:
   pgdata:
 ```
@@ -460,11 +496,13 @@ volumes:
 ## 🏃‍♂️ How to Run the Project
 
 ### Prerequisites
+
 1. **Node.js** (v18+)
 2. **Docker Desktop**
 3. **Git**
 
 ### Setup Commands
+
 ```bash
 # 1. Clone and setup
 git clone <repository-url>
@@ -489,6 +527,7 @@ npm run db:studio
 ```
 
 ### Available Commands
+
 ```bash
 npm run dev          # Start development server
 npm run build        # Build for production
@@ -505,12 +544,14 @@ npm run db:studio    # Open Drizzle Studio (Database GUI)
 ## 📈 Development Workflow
 
 ### Database Changes
+
 1. **Modify Schema**: Update files in `src/drizzle/schema/`
 2. **Generate Migration**: `npm run db:generate`
 3. **Apply Migration**: `npm run db:migrate`
 4. **Verify Changes**: `npm run db:studio`
 
 ### Adding New Features
+
 1. **Database Schema**: Add/modify tables in schema files
 2. **API Routes**: Create Next.js API routes using Drizzle queries
 3. **Frontend Components**: Build React components for UI
@@ -521,27 +562,32 @@ npm run db:studio    # Open Drizzle Studio (Database GUI)
 ## 🎯 Next Implementation Phases
 
 ### Phase 10: Authentication System
+
 - [ ] Implement user authentication (NextAuth.js or Clerk)
 - [ ] Add role-based access control
 - [ ] Create protected routes
 
 ### Phase 11: API Development
+
 - [ ] Create REST/GraphQL APIs using Drizzle queries
 - [ ] Implement job CRUD operations
 - [ ] Add application management endpoints
 
 ### Phase 12: Frontend Development
+
 - [ ] Build job listing components
 - [ ] Create application forms
 - [ ] Implement user dashboards
 - [ ] Add company management interface
 
 ### Phase 13: File Management
+
 - [ ] Integrate cloud storage (AWS S3/Cloudinary)
 - [ ] Implement resume upload functionality
 - [ ] Add AI resume parsing
 
 ### Phase 14: Advanced Features
+
 - [ ] Email notification system
 - [ ] Job search and filtering
 - [ ] Real-time updates
@@ -551,42 +597,47 @@ npm run db:studio    # Open Drizzle Studio (Database GUI)
 
 ## 📊 Project Statistics
 
-| Metric | Count |
-|--------|--------|
-| **Database Tables** | 7 |
-| **PostgreSQL Enums** | 6 |
-| **Foreign Key Relationships** | 7 |
-| **Composite Primary Keys** | 2 |
-| **Database Indexes** | 1 |
-| **TypeScript Files** | 10+ |
-| **Migration Files** | 1 |
-| **Total Lines of Code** | 1000+ |
+| Metric                        | Count |
+| ----------------------------- | ----- |
+| **Database Tables**           | 7     |
+| **PostgreSQL Enums**          | 6     |
+| **Foreign Key Relationships** | 7     |
+| **Composite Primary Keys**    | 2     |
+| **Database Indexes**          | 1     |
+| **TypeScript Files**          | 10+   |
+| **Migration Files**           | 1     |
+| **Total Lines of Code**       | 1000+ |
 
 ---
 
 ## 🏆 Key Achievements
 
 ### ✅ **Production-Ready Database**
+
 - Complete job board schema with all necessary relationships
 - Type-safe database operations throughout
 - Proper indexing for performance optimization
 
 ### ✅ **Modern Development Setup**
+
 - Full TypeScript integration with strict typing
 - Environment variable validation with Zod
 - Docker containerization for consistent development
 
 ### ✅ **Scalable Architecture**
+
 - Modular schema organization
 - Reusable components and fields
 - Clear separation of concerns
 
 ### ✅ **Developer Experience**
+
 - Comprehensive documentation in Hinglish
 - Easy-to-use npm scripts
 - Visual database management with Drizzle Studio
 
 ### ✅ **Business Logic Implementation**
+
 - Complete hiring workflow support
 - Multi-tenancy for HR users
 - Flexible job categorization system
@@ -605,23 +656,26 @@ npm run db:studio    # Open Drizzle Studio (Database GUI)
 ## 🔍 Code Quality
 
 ### Type Safety
+
 - 100% TypeScript coverage
 - Zod schema validation for environment variables
 - Drizzle ORM provides compile-time type checking
 
 ### Database Design
+
 - Normalized schema design
 - Proper foreign key relationships
 - Efficient indexing strategy
 
 ### Modern Practices
+
 - Environment-based configuration
 - Containerized development environment
 - Version-controlled database migrations
 
 ---
 
-*This documentation serves as a complete reference for all changes and implementations made in the Career Connect project. It provides both technical details and business context for future development phases.*
+_This documentation serves as a complete reference for all changes and implementations made in the Career Connect project. It provides both technical details and business context for future development phases._
 
 ---
 

@@ -41,4 +41,5 @@ yarn-error.log*
 
 # Ignore project architecture documentation
 Project_Archietecture.md
+IMPLEMENTATION_DOCUMENTATION.md
 next-env.d.ts
