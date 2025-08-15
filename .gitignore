@@ -43,3 +43,6 @@ yarn-error.log*
 Project_Archietecture.md
 IMPLEMENTATION_DOCUMENTATION.md
 next-env.d.ts
+
+# clerk configuration (can include secrets)
+/.clerk/
