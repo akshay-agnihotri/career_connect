@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lora } from "next/font/google";
 import "./globals.css";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import AppSidebar from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
 import ClerkProvider from "@/components/clerk-provider";
 
 const geistSans = Geist({
@@ -39,13 +36,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} ${lora.variable} antialiased`}
         >
-          <SidebarProvider className="overflow-y-hidden">
-            <AppSidebar />
-            <SidebarInset>
-              <SiteHeader />
-              {children}
-            </SidebarInset>
-          </SidebarProvider>
+          {children}
         </body>
       </html>
     </ClerkProvider>
