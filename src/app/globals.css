@@ -164,3 +164,15 @@
   /* Apply the reveal animation */
   animation: reveal 0.4s ease-in-out forwards;
 }
+
+@media only screen and (min-width: 760px) {
+  .cl-internal-1hqkstz {
+    max-width: calc(-2rem + 70vw);
+  }
+}
+
+@media screen  and (min-width: 1200px){
+  .cl-internal-1hqkstz {
+    max-width: calc(-2rem + 100vw);
+  }
+}

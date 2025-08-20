@@ -8,7 +8,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     <>
       <SidebarProvider className="overflow-y-hidden">
         <AppSidebar />
-        <SidebarInset>
+        <SidebarInset >
           <SiteHeader />
           {children}
         </SidebarInset>
