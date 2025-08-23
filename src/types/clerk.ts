@@ -14,4 +14,5 @@ export interface ClerkUserCreatedEventData {
   evt: ClerkUserWebhookEvent;
   headers: Record<string, unknown>; // client_ip, user_agent yahan hoga
   queryParams: Record<string, unknown>;
+  raw: string; // Raw body jo Clerk ne bheja
 }
