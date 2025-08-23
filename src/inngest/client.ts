@@ -1,13 +1,25 @@
 // lib/inngest.ts
-import { ClerkUserCreatedEventData } from "@/types/clerk";
+import { UserWebhookEvent } from "@clerk/nextjs/server";
 import { EventSchemas, Inngest } from "inngest";
+
+interface InngestWebhookEventData<E> {
+  evt: E;
+  headers: Record<string, unknown>; // client_ip, user_agent yahan hoga
+  queryParams: Record<string, unknown>;
+  raw: string; // Raw body jo Clerk ne bheja
+}
 
 // Define your events schema
 type Events = {
   "clerk/user.created": {
-    data: ClerkUserCreatedEventData;
+    data: InngestWebhookEventData<UserWebhookEvent>;
   };
-  // Add other events here as needed
+  "clerk/user.updated": {
+    data: InngestWebhookEventData<UserWebhookEvent>;
+  };
+  "clerk/user.deleted": {
+    data: InngestWebhookEventData<UserWebhookEvent>;
+  };
 };
 
 // Create type-safe Inngest instance

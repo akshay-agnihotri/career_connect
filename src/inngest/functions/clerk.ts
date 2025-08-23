@@ -20,6 +20,7 @@ export const clerkCreateUser = inngest.createFunction(
   },
   { event: "clerk/user.created" },
   async ({ event, step }) => {
+    
     // verify incoming webhook
     step.run("verify-webhook", async () => {
       try {
